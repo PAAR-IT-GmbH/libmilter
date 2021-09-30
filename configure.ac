@@ -26,6 +26,7 @@ AC_TYPE_SSIZE_T
 #AC_DEFINE([MAX_WORKERS], [10], [Set maximum workers])
 #AC_DEFINE([MIN_WORKERS], [2], [Set minimum workers])
 #AC_DEFINE([MIN_IDLE], [1], [Set minimum idle workers])
+#CFLAGS="-g3 -O0"
 #CFLAGS="-O3"
 
 # Checks for library functions.
