@@ -209,15 +209,14 @@ smfi_setbacklog(obacklog)
 **  SMFI_MAIN -- setup milter connnection and start listener.
 **
 **	Parameters:
-**		privatedata -- initialize pointer to private data (setpriv/getpriv)
+**		none
 **
 **	Returns:
 **		MI_SUCCESS/MI_FAILURE
 */
 
 int
-smfi_main(privatedata)
-	void *privatedata;
+smfi_main()
 {
 	int r;
 
@@ -240,7 +239,7 @@ smfi_main(privatedata)
 	r = MI_MONITOR_INIT();
 
 	/* Startup the listener */
-	if (mi_listener(conn, dbg, smfi, privatedata, timeout, backlog) != MI_SUCCESS)
+	if (mi_listener(conn, dbg, smfi, timeout, backlog) != MI_SUCCESS)
 		r = MI_FAILURE;
 
 	return r;
