@@ -8,4 +8,4 @@ libmilter_la_SOURCES = errstring.c strl.c comm.c engine.c handler.c listener.c m
 
 libmilter_la_CPPFLAGS = -DNOT_SENDMAIL -Dsm_snprintf=snprintf -D_REENTRANT -DXP_MT -Ismapp -Iinclude -Wall
 
-libmilter_la_LDFLAGS = -version-info 2:0:0
+libmilter_la_LDFLAGS = -version-info 1:2:0
