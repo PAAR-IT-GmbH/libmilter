@@ -409,6 +409,13 @@ mi_engine(ctx)
 			free(buf);
 			buf = NULL;
 		}
+		
+		/*
+		 * Allow to keep buffer alive if fi_body returns _SMIFS_KEEP
+		 */
+		if(r == _SMFIS_KEEP && (curstate == ST_BODY || curstate == ST_ENDM))
+			r = SMFIS_CONTINUE;
+
 		if (sendreply(r, sd, &timeout, ctx) != MI_SUCCESS)
 		{
 			ret = MI_FAILURE;
@@ -1604,14 +1611,26 @@ st_bodyend(g)
 			sd = g->a_ctx->ctx_sd;
 			r = (*fi_body)(g->a_ctx, (unsigned char *)g->a_buf,
 				       g->a_len);
-			if (r != SMFIS_CONTINUE &&
+			/*
+			 * _SMFIS_KEEP behaves like SMFIS_CONTINUE
+			 */
+			if ((r != SMFIS_CONTINUE && r != _SMFIS_KEEP) &&
 			    sendreply(r, sd, &timeout, g->a_ctx) != MI_SUCCESS)
 				return _SMFIS_ABORT;
 		}
 	}
+
+	/*
+     * fi_body decides if buffer shall live
+	 */
 	if (r == SMFIS_CONTINUE &&
 	    (fi_eom = g->a_ctx->ctx_smfi->xxfi_eom) != NULL)
 		return (*fi_eom)(g->a_ctx);
+	else if (r == _SMFIS_KEEP && 
+	    (fi_eom = g->a_ctx->ctx_smfi->xxfi_eom) != NULL) {
+		r = (*fi_eom)(g->a_ctx);
+		return r == SMFIS_CONTINUE ? _SMFIS_KEEP : r;
+	}
 	return r;
 }
 
