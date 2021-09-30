@@ -93,11 +93,23 @@ static int mi_list_del_ctx __P((SMFICTX_PTR));
 #define WKST_WAITING		4	/* waiting for new command */
 #define WKST_CLOSING		5	/* session finished */
 
+
 #ifndef MIN_WORKERS
+#pragma GCC error "error message"
+#endif
+
+#ifndef MIN_WORKERS
+# error I had enough
 # define MIN_WORKERS	2  /* minimum number of threads to keep around */
 #endif
 
-#define MIN_IDLE	1  /* minimum number of idle threads */
+#ifndef MAX_WORKERS
+# define MAX_WORKERS	10  /* maximum number of threads to keep around */
+#endif
+
+#ifndef MIN_IDLE
+# define MIN_IDLE	1  /* minimum number of idle threads */
+#endif
 
 
 /*
@@ -587,7 +599,7 @@ mi_pool_controller(arg)
 						("TASK: found %d for fd[%d]=%d",
 						ctx->ctx_sid, i, WAIT_FD(i)));
 
-					if (Tskmgr.tm_nb_idle > 0)
+					if (Tskmgr.tm_nb_idle > 0 || Tskmgr.tm_nb_workers >= MAX_WORKERS)
 					{
 						ctx->ctx_wstate = WKST_READY_TO_RUN;
 						TASKMGR_COND_SIGNAL();
