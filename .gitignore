@@ -15,6 +15,6 @@ libtool
 ltmain.sh
 Makefile
 missing
-m4
 stamp-h1
 sm_os.h
+compile
