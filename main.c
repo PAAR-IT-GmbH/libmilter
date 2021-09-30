@@ -209,7 +209,7 @@ smfi_setbacklog(obacklog)
 **  SMFI_MAIN -- setup milter connnection and start listener.
 **
 **	Parameters:
-**		none
+**		none.
 **
 **	Returns:
 **		MI_SUCCESS/MI_FAILURE

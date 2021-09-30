@@ -93,13 +93,7 @@ static int mi_list_del_ctx __P((SMFICTX_PTR));
 #define WKST_WAITING		4	/* waiting for new command */
 #define WKST_CLOSING		5	/* session finished */
 
-
 #ifndef MIN_WORKERS
-#pragma GCC error "error message"
-#endif
-
-#ifndef MIN_WORKERS
-# error I had enough
 # define MIN_WORKERS	2  /* minimum number of threads to keep around */
 #endif
 
