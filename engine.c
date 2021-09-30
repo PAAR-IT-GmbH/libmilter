@@ -417,7 +417,7 @@ mi_engine(ctx)
 		/*
 		 * Allow to keep buffer alive if fi_body returns _SMIFS_KEEP
 		 */
-		if(r == _SMFIS_KEEP && (curstate == ST_BODY || curstate == ST_ENDM))
+		if(r == _SMFIS_KEEP && (f == st_bodychunk || f == st_bodyend))
 			r = SMFIS_CONTINUE;
 
 		if (sendreply(r, sd, &timeout, ctx) != MI_SUCCESS)
